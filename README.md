@@ -37,6 +37,11 @@ Write dashboards to corresponding files:
 ./datadog-terraform-exporter dashboards --files --all
 ```
 
+Write dashboards to a single files:
+```bash
+./datadog-terraform-exporter dashboards --files --all
+```
+
 DataDog monitor can be exported with this command:
 ```bash
 ./datadog-terraform-exporter monitors --ids 1706011

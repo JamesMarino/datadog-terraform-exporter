@@ -5,7 +5,7 @@ services:
     env_file:
       - .env
     volumes:
-      - output:/app/datadog-terraform-exporter/output
+      - ./output:/app/datadog-terraform-exporter/output
 
 volumes:
   output:
