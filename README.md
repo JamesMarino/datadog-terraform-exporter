@@ -1,42 +1,48 @@
-[![Build Status](https://travis-ci.org/amnk/dd2tf.svg?branch=master)](https://travis-ci.org/amnk/dd2tf)
+# DataDog Terraform Exporter
 
-A simple utility to convert DataDog dashboards and/or monitors to Terraform format. 
+A simple utility to convert DataDog dashboards and/or monitors to Terraform format.
 
 Requires `DATADOG_API_KEY` and `DATADOG_APP_KEY` environment variables.
 
-Useful, if you had all dashboards configured adhoc and now want to follow DevOps style :)
+Useful, if you had all dashboards configured ad-hoc and now want to follow DevOps style 😀
 
 # How to build
-Just run (GOPATH and sometimes GOBIN have to be set):
+
 ```bash
-dep ensure
-go generate && go build
+make build
 ```
 
 # Examples
-Export all dashboards:
+
+Export Keys
+
 ```bash
-DATADOG_API_KEY=xxx DATADOG_APP_KEY=xxx ./dd2tf dashboards --all
+export DATADOG_API_KEY=xxx
+export DATADOG_APP_KEY=xxx
 ```
 
-Export one particular dashboard (where `1111` is the ID of the dashboard):
+Export all dashboards:
 ```bash
-DATADOG_API_KEY=xxx DATADOG_APP_KEY=xxx ./dd2tf dashboards --ids 111
+./datadog-terraform-exporter dashboards --all
+```
+
+Export one or more particular dashboard (where `1111` is the ID of the dashboard):
+```bash
+./datadog-terraform-exporter dashboards --ids 1111
+./datadog-terraform-exporter dashboards --ids 2222
 ```
 
 Write dashboards to corresponding files:
 ```bash
-DATADOG_API_KEY=xxx DATADOG_APP_KEY=xxx ./dd2tf dashboards --files --all
+./datadog-terraform-exporter dashboards --files --all
 ```
 
-Datadog monitor can be exported with this command:
+DataDog monitor can be exported with this command:
 ```bash
-DATADOG_API_KEY=xxx DATADOG_APP_KEY=xxx ./dd2tf monitors --ids 1706011
+./datadog-terraform-exporter monitors --ids 1706011
 ```
 
-And Datadog Screenboard:
+And DataDog Screenboard:
 ```bash
-DATADOG_API_KEY=xxx DATADOG_APP_KEY=xxx ./dd2tf screenboards --all
+./datadog-terraform-exporter screenboards --all
 ```
-
-You can find api/app keys in settings, under `Integrations -> API` section.
