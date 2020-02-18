@@ -6,13 +6,13 @@ Requires `DATADOG_API_KEY` and `DATADOG_APP_KEY` environment variables.
 
 Useful, if you had all dashboards configured ad-hoc and now want to follow DevOps style 😀
 
-# How to build
+## How to build
 
 ```bash
 make build
 ```
 
-# Examples
+## Examples
 
 Export Keys
 
@@ -45,4 +45,18 @@ DataDog monitor can be exported with this command:
 And DataDog Screenboard:
 ```bash
 ./datadog-terraform-exporter screenboards --all
+```
+
+## Building with Docker
+
+```bash
+docker-compose build
+```
+
+## Running with Docker
+
+Create and populate a .env from .env.template
+
+```bash
+docker-compose run datadog-terraform-exporter <command here>
 ```

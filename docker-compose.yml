@@ -1,0 +1,11 @@
+version: '3'
+services:
+  datadog-terraform-exporter:
+    build: .
+    env_file:
+      - .env
+    volumes:
+      - output:/app/datadog-terraform-exporter/output
+
+volumes:
+  output:
