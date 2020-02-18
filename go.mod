@@ -1,12 +1,11 @@
-module github.com/amnk/dd2tf
-
-go 1.13
+module github.com/JamesMarino/datadog-terraform-exporter
 
 require (
-	github.com/cenkalti/backoff v1.0.1-0.20161020194410-b02f2bbce11d // indirect
-	github.com/sirupsen/logrus v1.2.0
-	github.com/spf13/pflag v1.0.3
-	github.com/zorkian/go-datadog-api v2.18.0+incompatible
-	golang.org/x/crypto v0.0.0-20190102171810-8d7daa0c54b3 // indirect
-	golang.org/x/sys v0.0.0-20190102155601-82a175fd1598 // indirect
+	github.com/cenkalti/backoff v2.2.1+incompatible // indirect
+	github.com/jteeuwen/go-bindata v3.0.7+incompatible // indirect
+	github.com/sirupsen/logrus v1.4.2
+	github.com/spf13/pflag v1.0.5
+	github.com/zorkian/go-datadog-api v2.27.0+incompatible
 )
+
+go 1.13
