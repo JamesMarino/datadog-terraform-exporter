@@ -5,6 +5,7 @@ import (
 	"fmt"
 	log "github.com/sirupsen/logrus"
 	"os"
+	"path/filepath"
 	"strconv"
 	"text/template"
 
@@ -16,6 +17,7 @@ type LocalConfig struct {
 	client     datadog.Client
 	items      []Item
 	files      bool
+	file       bool
 	components []DatadogElement
 }
 
@@ -53,9 +55,29 @@ func (i *Item) renderElement(item interface{}, config LocalConfig) {
 		"DeRefString":      func(s *string) string { return *s },
 	}).Parse(string(b))
 
-	if config.files {
+	outputFileDirectory := filepath.Join(".", "output")
+	_ = os.Mkdir(outputFileDirectory, os.ModePerm)
+
+	if config.file {
+		log.Info("Saving to single file")
+
+		fileName := fmt.Sprintf("%v/output.tf", outputFileDirectory)
+		file, err := os.OpenFile(fileName, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0755)
+
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		output := bufio.NewWriter(file)
+		t.Execute(output, item)
+		output.Flush()
+
+		if err := file.Close(); err != nil {
+			log.Fatal(err)
+		}
+	} else if config.files {
 		log.Debug("Creating file", i.d.getName(), i.id)
-		file := fmt.Sprintf("%v-%v.tf", i.d.getName(), i.id)
+		file := fmt.Sprintf("%v/%v-%v.tf", outputFileDirectory, i.d.getName(), i.id)
 		f, err := os.OpenFile(file, os.O_RDWR|os.O_CREATE, 0755)
 		if err != nil {
 			log.Fatal(err)
@@ -79,6 +101,7 @@ func escapeCharacters(line string) string {
 type SecondaryOptions struct {
 	ids   []int
 	files bool
+	file  bool
 	all   bool
 	debug bool
 }
@@ -88,12 +111,15 @@ func NewSecondaryOptions(cmd *flag.FlagSet) *SecondaryOptions {
 	cmd.IntSliceVar(&options.ids, "ids", []int{}, "IDs of the elements to fetch.")
 	cmd.BoolVar(&options.all, "all", false, "Export all available elements.")
 	cmd.BoolVar(&options.files, "files", false, "Save each element into a separate file.")
+	cmd.BoolVar(&options.file, "file", false, "Save each element into a single file.")
 	cmd.BoolVar(&options.debug, "debug", false, "Enable debug output.")
 	return options
 }
 
 func executeLogic(opts *SecondaryOptions, config *LocalConfig, component DatadogElement) {
 	config.files = opts.files //TODO: get rid of this ugly hack
+	config.file = opts.file   //TODO: get rid of this ugly hack
+
 	if (len(opts.ids) == 0) && (opts.all == false) {
 		log.Fatal("Either --ids or --all should be specified")
 	} else if opts.all == true {
