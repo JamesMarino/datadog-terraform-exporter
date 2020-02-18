@@ -1,5 +1,7 @@
 # DataDog Terraform Exporter
 
+![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/jamesmarinoio/datadog-terraform-exporter)
+
 A simple utility to convert DataDog dashboards and/or monitors to Terraform format.
 
 Requires `DATADOG_API_KEY` and `DATADOG_APP_KEY` environment variables.
@@ -44,7 +46,7 @@ Write dashboards to a single files:
 
 DataDog monitor can be exported with this command:
 ```bash
-./datadog-terraform-exporter monitors --ids 1706011
+./datadog-terraform-exporter monitors --ids 1111
 ```
 
 And DataDog Screenboard:
